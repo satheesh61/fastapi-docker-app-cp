@@ -23,6 +23,7 @@
        - docker push $ecr_api_repo_url:$CODEBUILD_BUILD_NUMBER
        - cd deployment_scripts
        - sed -i "s|<repo url>|$ecr_api_repo_url|g" pull_and_run_docker.sh
+       - sed -i "s|<repo url>|$ecr_api_repo_url|g" stop_remove_docker_image.sh
  artifacts:
    files:
      - '*'

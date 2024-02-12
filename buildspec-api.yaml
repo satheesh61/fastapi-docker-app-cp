@@ -10,6 +10,7 @@
     build:
       commands:
        - echo Build started on `date`
+       - ls -l
        - echo Building the Docker image...          
        - docker build -t $ecr_repo_name -t $ecr_repo_name:$CODEBUILD_BUILD_NUMBER .
        - docker tag $ecr_repo_name:latest $ecr_api_repo_url:latest

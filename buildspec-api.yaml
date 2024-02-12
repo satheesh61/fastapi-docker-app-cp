@@ -1,0 +1,32 @@
+ version: 0.2
+ phases:
+    install:
+      commands:
+        - echo Entered the Installation phase
+    pre_build:
+      commands:
+        - echo Logging in to Amazon ECR...
+        - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin $ecr_api_repo_url
+    build:
+      commands:
+       - echo Build started on `date`
+       - cd backend
+       - ls -l
+       - echo Building the Docker image...          
+       - docker build -t $ecr_repo_name -t $ecr_repo_name:$CODEBUILD_BUILD_NUMBER .
+       - docker tag $ecr_repo_name:latest $ecr_api_repo_url:latest
+       - docker tag $ecr_repo_name:latest $ecr_api_repo_url:$CODEBUILD_BUILD_NUMBER
+    post_build:
+      commands:
+       - echo Build completed on `date`
+       - echo Pushing the Docker image...
+       - docker push $ecr_api_repo_url:latest
+       - docker push $ecr_api_repo_url:$CODEBUILD_BUILD_NUMBER
+       - cd ..
+       - cd deployment_scripts
+       - sed -i "s|<repo url>|$ecr_api_repo_url|g" pull_and_run_docker.sh
+ artifacts:
+   files:
+     - '*'
+     - '**/*'
+ 

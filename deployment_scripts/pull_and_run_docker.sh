@@ -16,5 +16,5 @@ ls -l
 pwd
 cd /home/ec2-user/app
 
-docker run -d -name fastapico01 -p 80:8080 "${API_ECR_REPOSITORY_URI}:${IMAGE_TAG}"
+docker run -d --name fastapico01 -p 80:8080 "${API_ECR_REPOSITORY_URI}:${IMAGE_TAG}"
 

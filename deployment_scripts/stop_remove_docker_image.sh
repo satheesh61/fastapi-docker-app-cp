@@ -29,7 +29,7 @@ if [[ -n "$running_containers" ]]; then
 
     # Delete corresponding images
     for container_id in $running_containers; do
-        image_id=$(docker images -q --filter ancestor="$container_id")
+        image_id=$(docker images -aq "${API_ECR_REPOSITORY_URI}")
         docker rmi "$image_id"
     done
 

@@ -8,5 +8,8 @@ API_ECR_REPOSITORY_URI=<repo url>
 cd /home/ec2-user/app
 ls
 
-docker ps -aq | xargs docker stop | xargs docker rm
-docker rmi ${docker images | grep "${API_ECR_REPOSITORY_URI}" }
+docker stop $(docker ps -q) 2>/dev/null
+docker rm $(docker ps -a -q) 2>/dev/null
+docker rmi $(docker images --filter dangling=true -q) 2>/dev/null
+# docker ps -aq | xargs docker stop | xargs docker rm
+# docker rmi ${docker images | grep "${API_ECR_REPOSITORY_URI}" }

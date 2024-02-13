@@ -3,10 +3,12 @@ os: linux
 files:
   -  source: /
      destination: /home/ec2-user/app
-hooks:
-  Install:
+hooks:  
+  # BeforeInstall:
+  #   - location: deployment_scripts/stop_remove_docker_image.sh
+  #     runas: ec2-user
+  AfterInstall:
     - location: deployment_scripts/stop_remove_docker_image.sh
       runas: ec2-user
-  AfterInstall:
     - location: deployment_scripts/pull_and_run_docker.sh
       runas: ec2-user

@@ -27,9 +27,9 @@ if [[ -n "$running_containers" ]]; then
     # Remove stopped containers
     docker rm $running_containers
 
+    image_ids=$(docker images -aq "${API_ECR_REPOSITORY_URI}")
     # Delete corresponding images
-    for container_id in $running_containers; do
-        image_id=$(docker images -aq "${API_ECR_REPOSITORY_URI}")
+    for image_id in $image_ids; do      
         docker rmi "$image_id"
     done
 
